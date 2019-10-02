@@ -4,23 +4,20 @@ class Solution(object):
         :type x: int
         :rtype: int
         """
-        s = str(x)
-        size = len(s)
-        isNegative = False
-        if s[0] == "-":
-            isNegative = True
-            s = s[1:size-1]
-            size-=1
-        temp = ""
-        half = int((size+1)/2)
-        for i in range(half):
-            temp = s[i]
-            s[i] = s[2*half-i]
-            s[2*half-i] = temp
-        if s[0] == '0':
-            if isNegative == True:
-                s[0] = '-'
+        rev = 0
+        while(x!=0):
+            if x>0:
+                pop = x%10
             else:
-                s = s[1:size-1]
-                size-=1
-        return int(s)
+                pop = x%(-10)
+            x /= 10
+            x = int(x)
+            if(rev>(2**31-1)/10) or (rev==(2**31-1)/10 and pop>7):
+                return 0
+            if(rev<-2**31/10) or (rev==-2**31/10 and pop<-8):
+                return 0
+            rev = rev*10 + pop
+        return rev
+
+if __name__ == '__main__':
+    print(Solution().reverse(-123))
